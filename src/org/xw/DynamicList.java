@@ -184,9 +184,11 @@ public class DynamicList<E> {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("这行代码是在MBP写的");
-		DynamicList<Object> list = new DynamicList();
+		DynamicList<Object> list = new DynamicList<Object>();
 		list.append(new Person(10, "xw"));
 		list.append(new Person(12, "lxl"));
+		list.append(2);
+		list.append(99);
 		System.out.println(list.toString());
 	}
 
