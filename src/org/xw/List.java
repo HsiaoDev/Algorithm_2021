@@ -39,15 +39,17 @@ public interface List<E> {
 	/**
 	 * 获取index位置的元素
 	 * @param index
+	 * @return 目标位置的元素
 	 */
-	void getAt(int index);
+	E getAt(int index);
 	
 	/**
 	 * 替换index位置的元素
-	 * @param index
-	 * @param e
+	 * @param index 目标位置
+	 * @param e 新元素
+	 * @return 目标位置原本的元素
 	 */
-	void replaceAt(int index, E e);
+	 E replaceAt(int index, E e);
 	
 	/**
 	 * 在index位置插入一个元素
@@ -60,7 +62,7 @@ public interface List<E> {
 	 * 删除index位置的元素
 	 * @param index
 	 */
-	void removeAt(int index);
+	E removeAt(int index);
 	
 	/**
 	 * 获取元素的索引
