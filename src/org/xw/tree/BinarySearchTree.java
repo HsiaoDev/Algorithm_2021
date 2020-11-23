@@ -95,6 +95,7 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 	 */
 	public void add(E e) {
 		// 判断新元素是否为空
+		elementNotNullCheck(e);
 		
 		// 如果当前BST是空树
 		if (root == null) {
@@ -128,6 +129,12 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 			parentNode.leftChildNode = newNode;
 		}
 		size++;
+	}
+	
+	private void elementNotNullCheck(E e) {
+		if (e == null) {
+			throw new IllegalArgumentException("element must not be null");
+		}
 	}
 	
 	@Override
