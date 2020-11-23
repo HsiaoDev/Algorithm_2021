@@ -1,6 +1,6 @@
 package org.xw;
 
-@SuppressWarnings("unused")
+@SuppressWarnings("unchecked")
 public class LinkedList<E> extends AbstractList<E> {
 	
 	// 成员变量
