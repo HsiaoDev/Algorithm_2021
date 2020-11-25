@@ -1,4 +1,4 @@
-package Sort;
+package org.xw.sort;
 
 /**
  * 冒泡排序
