@@ -2,6 +2,7 @@ package org.xw.sort;
 
 /**
  * 冒泡排序
+ * 参考 https://blog.csdn.net/MoreWindows/article/details/17488865
  */
 public class BubbleSort {
 
