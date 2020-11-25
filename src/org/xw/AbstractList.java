@@ -1,5 +1,7 @@
 package org.xw;
 
+import org.xw.list.List;
+
 /**
  * 新建抽象类实现List接口，抽象类中可以没有抽象方法
  */

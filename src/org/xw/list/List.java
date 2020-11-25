@@ -1,4 +1,4 @@
-package org.xw;
+package org.xw.list;
 
 /**
  * 新建一个接口interface 需要有类实现这个接口中声明的方法
