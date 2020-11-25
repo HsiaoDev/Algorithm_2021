@@ -3,13 +3,15 @@ package org.xw.tree;
 import java.util.Comparator;
 
 //@SuppressWarnings("unchecked")
-//@SuppressWarnings("unused")
+@SuppressWarnings("unused")
 public class BinarySearchTree<E> implements BinaryTreeInfo {
 
 	// 二叉排序树的元素数量
 	private int size;
+	
 	// 二叉树的根节点
 	private Node<E> root;
+	
 	// 二叉树内部的比较器
 	private Comparator<E> comparator;
 	
@@ -29,7 +31,7 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 	}
 	
 	/**
-	 * 内部类
+	 * 内部类：节点
 	 */
 	public static class Node<E> {
 		// 元素
@@ -66,6 +68,19 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 		public boolean hasTwoChildren() {
 			return leftChildNode != null && rightChildNode != null;
 		}
+	}
+	
+	
+	/**
+	 * 抽象类
+	 */
+	private static abstract class Visitor<E> {
+		boolean stop;
+		
+		/**
+		 * 抽象方法:比较某个元素
+		 */
+		public abstract boolean viosit(E e);
 	}
 	
 	/**
@@ -199,6 +214,31 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 	}
 	
 	/**
+	 * 获取某个节点的前驱节点
+	 * @param node
+	 * @return
+	 */
+	private Node<E> predecessor(Node<E> node) {
+		if (node == null) return null;
+		
+		// 前驱是左子树的最右子节点
+		Node<E> pNode = node.leftChildNode;
+		if (pNode != null) {
+			while (pNode.rightChildNode != null) {
+				pNode = pNode.rightChildNode;
+			}
+			return pNode;
+		}
+		
+		// 前驱在父节点中
+		while (node.parentNode != null && node == node.parentNode.leftChildNode) {
+			node = node.parentNode;
+		}
+
+		return node.parentNode;
+	}
+	
+	/**
 	 * 获取某个节点的后继节点 中序遍历的下一个节点
 	 * https://blog.csdn.net/zhou_209/article/details/79440355
 	 * 分两种情况
@@ -210,26 +250,20 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 	 * @return 目标节点的后继节点 可能是左子节点或右子节点
 	 */
 	private Node<E> successorNodeOf(Node<E> node) {
-			// 如果目标节点是空节点 返回空节点
+		// A: 如果目标节点是空节点 返回空节点
 		if (node == null) return null;
 		
-		/**
-		 *       X
-		 * 	   /  \
-		 * 	  o    o
-		 *   / \  / \
-		 *  o  o 0   o
-		 * 
-		 */
+		// B: 目标节点不是空节点，且是当前节点的右子节点
 		Node<E> pNode = node.rightChildNode;
 		if (pNode != null) {
 			while (pNode.leftChildNode != null) {
-				
 				pNode = pNode.leftChildNode;
 			}
+			// 后继节点是当前节点右子树的最左节点
 			return pNode;
 		}
 		
+		// C: 目标节点不是空节点，且是当前节点的左子节点
 		while (node.parentNode != null && node == node.parentNode.rightChildNode) {
 			node = node.parentNode;
 		}
@@ -266,7 +300,7 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 	 * @param e
 	 */
 	private boolean contains(E e) {
-		return false;
+		return nodeWithElement(e) != null;
 
 	}
 	
@@ -292,6 +326,64 @@ public class BinarySearchTree<E> implements BinaryTreeInfo {
 		if (e == null) {
 			throw new IllegalArgumentException("element must not be null");
 		}
+	}
+	
+	// MARK - 前序遍历
+	private void preOrder(Node<E> node, Visitor<E> visitor) {
+		// 边界条件
+		if (visitor == null || visitor.stop) return;
+		
+		// 访问当前节点的元素
+		visitor.stop = visitor.viosit(node.e);
+		// 调用当前方法访问左子节点
+		preOrder(node.leftChildNode, visitor);
+		// 调用当前方法访问右子节点
+		preOrder(node.rightChildNode, visitor);
+	}
+	
+	private void preOrder(Visitor<E> visitor) {
+		if (visitor == null) return;
+		preOrder(root, visitor);
+	}
+	
+	// MARK - 中序遍历
+	public void inOrder(Visitor<E> visitor) {
+		if (visitor == null) return;
+	}
+	
+	private void inOrder(Node<E> node, Visitor<E> visitor) {
+		// 边界条件
+		if (visitor == null || visitor.stop) return;
+		
+		// 调用当前方法访问左子节点
+		inOrder(node.leftChildNode, visitor);
+		if (visitor.stop) return;
+		// 调用当前方法访问根节点
+		visitor.stop = visitor.viosit(node.e);
+		// 调用当前方法访问右子节点
+		inOrder(node.rightChildNode, visitor);
+
+	}
+	
+	// MARK - 后序遍历
+	public void postOrder(Visitor<E> visitor) {
+		if (visitor == null || visitor.stop) return;
+		postOrder(root, visitor);
+	}
+	
+	private void postOrder(Node<E> node, Visitor<E> visitor) {
+		// 边界条件
+		if (visitor == null || visitor.stop) return;
+		
+		// 调用当前方法访问左子节点
+		postOrder(node.leftChildNode, visitor);
+		// 调用当前方法访问右子节点
+		postOrder(node.rightChildNode, visitor);
+		
+		if (visitor.stop) return;
+		// 访问根节点
+		visitor.stop = visitor.viosit(node.e);
+
 	}
 	
 	@Override
