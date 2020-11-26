@@ -16,7 +16,7 @@ public class InsertSort {
 		System.out.print(Arrays.toString(array));
 		System.out.print("\n");
 
-		// 调用冒泡排序方法
+		// 调用插入排序方法
 		insertSort(array);
 
 		// 打印排序之后的数组
