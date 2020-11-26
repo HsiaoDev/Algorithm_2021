@@ -2,6 +2,11 @@ package org.xw.sort;
 
 import java.util.Arrays;
 
+/**
+ * https://zhuanlan.zhihu.com/p/127839844
+ * @author imac
+ *
+ */
 public class InsertSort {
 
 	public static void main(String[] args) {
