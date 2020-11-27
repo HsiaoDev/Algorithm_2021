@@ -1,5 +1,6 @@
 package org.xw.sort;
 
+
 public class QuickSort {
 
 	public static void main(String[] args) {
@@ -14,9 +15,10 @@ public class QuickSort {
 		System.out.print("\n");
 		
 		// 使用快速排序
-		quickSort(list);
+//		quickSort(list);
+		quickSort2(list, 0, list.length - 1);
 		// 打印排序之前的数组
-		System.out.print("排序前：");
+		System.out.print("排序后：");
 		for (int i = 0; i < list.length; i++) {
 			System.out.print(list[i] + ", ");
 		}
@@ -59,5 +61,41 @@ public class QuickSort {
 		array[left] = temp;
 		return left;
 	}
-
+	
+	/** 
+	 * 参考1 https://blog.csdn.net/pengzonglu7292/article/details/84938910
+	 * 参考2 https://blog.csdn.net/pengzonglu7292/article/details/84945563
+	 * @param array
+	 * @param low
+	 * @param high
+	 */
+	public static void quickSort2(int[] array, int low, int high) { 
+		// 递归返回条件
+		if (low >= high) return;
+		
+		int i = low;
+		int j = high;
+		int key = array[i];
+		
+		while (i < j) {
+			while (array[j] >= key && i < j) {
+				j--;
+			}
+			while (array[i] <= key && i < j) {
+				i++;
+			}
+			
+			if (i != j) {
+				int temp = array[i];
+				array[i] = array[j];
+				array[j] = temp;
+			} else {
+				int temp = array[j];
+				array[j] = array[low];
+				array[low] = temp;
+			}
+		}
+		quickSort2(array, low, i - 1);
+		quickSort2(array, i + 1, high);
+	}
 }
