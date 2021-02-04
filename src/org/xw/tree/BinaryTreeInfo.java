@@ -1,5 +1,6 @@
 package org.xw.tree;
 
+// 接口
 public interface BinaryTreeInfo {
 	/**
 	 * 获取跟节点
